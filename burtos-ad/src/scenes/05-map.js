@@ -3,9 +3,9 @@
   const B = window.BURTOS, U = window.U, [S, E] = B.T.map, C = B.cues;
   const O = B.zones.find(z => z.main) || B.zones[0];
   const km = (lat, lon) => [(lon - O.lon) * 111.32 * Math.cos(O.lat * Math.PI / 180), (lat - O.lat) * 110.57];   // x est, y nord
-  const TOWNS = [['TOURS', 47.394, 0.685], ['BLOIS', 47.586, 1.335], ['CHARTRES', 48.447, 1.489], ['BOURGES', 47.081, 2.398], ['MONTARGIS', 47.997, 2.733], ['VIERZON', 47.222, 2.069], ['CHÂTEAUROUX', 46.811, 1.691], ['PITHIVIERS', 48.172, 2.252], ['GIEN', 47.686, 2.631]].map(([n, a, o]) => ({ n, p: km(a, o) }));
+  const TOWNS = (B.towns || []).map(tw => ({ ...tw, p: km(tw.lat, tw.lon) }));
   const LOIRE = [[47.47, 2.93], [47.686, 2.631], [47.765, 2.375], [47.862, 2.22], [47.866, 2.123], [47.897, 1.905], [47.825, 1.70], [47.776, 1.635], [47.585, 1.335], [47.41, 0.98], [47.39, 0.69], [47.33, 0.4]].map(p => km(p[0], p[1]));
-  const ROADS = [[48.447, 1.489], [48.6, 2.15], [47.997, 2.733], [47.222, 2.069], [47.586, 1.335], [48.172, 2.252], [47.686, 2.631]].map(p => km(p[0], p[1]));
+  const ROADS = TOWNS.map(tw => tw.p);
   B.scenes.push({
     id: 'map', start: S, end: E,
     build(root, ctx) {
@@ -54,7 +54,7 @@
       /* villes repères */
       const far = U.clamp(1.6 - sc / 9) * (1 - z1);
       g.textAlign = 'center'; g.textBaseline = 'middle';
-      if (far > 0.01) { TOWNS.forEach(tw => { g.fillStyle = `rgba(255,253,245,${0.75 * far})`; g.beginPath(); g.arc(X(tw.p), Y(tw.p), 6, 0, 6.3); g.fill(); g.font = '800 22px Montserrat'; g.fillText(tw.n, X(tw.p), Y(tw.p) - 24); });
+      if (far > 0.01) {
         g.font = `900 ${V ? 54 : 64}px Montserrat`; g.fillStyle = `rgba(255,201,7,${0.9 * far})`; g.fillText(B.text.mapRegion, W / 2, H * (V ? 0.2 : 0.14)); }
       /* rayon de 30 km */
       const ck = U.p(t, C.circle, C.circle + 0.9);
@@ -64,8 +64,14 @@
         g.fillStyle = sw; g.beginPath(); g.arc(0, 0, rr, 0, 6.3); g.fill(); g.restore();
         g.strokeStyle = '#FFC907'; g.lineWidth = 6; g.shadowColor = '#FFC907'; g.shadowBlur = 30; g.beginPath(); g.arc(ox, oy, rr, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * e); g.stroke(); g.shadowBlur = 0;
         g.setLineDash([4, 18]); g.lineWidth = 3; g.strokeStyle = `rgba(255,243,196,${0.7 * e})`; g.lineDashOffset = -t * 30; g.beginPath(); g.arc(ox, oy, rr + 20, 0, 6.3); g.stroke(); g.setLineDash([]);
-        const la = U.p(t, C.circle + 0.5, C.circle + 0.9), ang = -0.6; if (la > 0) { g.strokeStyle = `rgba(255,253,245,${la})`; g.lineWidth = 3; g.setLineDash([10, 8]); g.beginPath(); g.moveTo(ox, oy); g.lineTo(ox + Math.cos(ang) * rr * la, oy + Math.sin(ang) * rr * la); g.stroke(); g.setLineDash([]);
-          g.font = '900 34px Montserrat'; const tx = ox + Math.cos(ang) * rr * 0.58, ty = oy + Math.sin(ang) * rr * 0.58 - 26; g.fillStyle = `rgba(11,11,13,${la})`; g.beginPath(); g.roundRect(tx - 70, ty - 26, 140, 50, 25); g.fill(); g.fillStyle = `rgba(255,201,7,${la})`; g.fillText(R + ' KM', tx, ty + 2); } }
+        const la = U.p(t, C.circle + 0.5, C.circle + 0.9), ang = -0.35; if (la > 0) { g.strokeStyle = `rgba(255,253,245,${la})`; g.lineWidth = 3; g.setLineDash([10, 8]); g.beginPath(); g.moveTo(ox, oy); g.lineTo(ox + Math.cos(ang) * rr * la, oy + Math.sin(ang) * rr * la); g.stroke(); g.setLineDash([]);
+          g.font = '900 34px Montserrat'; const tx = ox + Math.cos(ang) * rr * 0.62, ty = oy + Math.sin(ang) * rr * 0.62 - 26; g.fillStyle = `rgba(11,11,13,${la})`; g.beginPath(); g.roundRect(tx - 70, ty - 26, 140, 50, 25); g.fill(); g.fillStyle = `rgba(255,201,7,${la})`; g.fillText(R + ' KM', tx, ty + 2); } }
+      /* communes desservies dans le rayon */
+      TOWNS.forEach((tw, i) => { const t0 = C.circle + 0.7 + i * 0.13, k = U.p(t, t0, t0 + 0.4); if (k <= 0) return; const e = U.outBack(k, 3), x = X(tw.p), y = Y(tw.p), dn = tw.label === 'bas' ? 1 : -1;
+        const w = U.p(t, t0, t0 + 0.7); g.strokeStyle = `rgba(255,201,7,${(1 - w) * 0.9})`; g.lineWidth = 3; g.beginPath(); g.arc(x, y, 10 + w * 40, 0, 6.3); g.stroke();
+        g.fillStyle = '#FFFDF5'; g.shadowColor = '#FFC907'; g.shadowBlur = 18; g.beginPath(); g.arc(x, y, 9 * e, 0, 6.3); g.fill(); g.shadowBlur = 0;
+        g.globalAlpha = U.clamp(k * 3); g.font = `800 ${V ? 25 : 24}px Montserrat`; g.lineWidth = 6; g.strokeStyle = 'rgba(8,8,12,.9)'; g.lineJoin = 'round';
+        const ly = y + dn * (26 + (1 - e) * 10); g.strokeText(tw.name, x, ly); g.fillStyle = '#FFFDF5'; g.fillText(tw.name, x, ly); g.globalAlpha = 1; });
       /* liaisons entre secteurs */
       const ps = this.pts, lk = [[0, 1, C.points[1]], [0, 2, C.points[2]], [1, 2, C.points[2] + 0.25]];
       lk.forEach(([a, b, t0]) => { if (!ps[a] || !ps[b]) return; const k = U.outCubic(U.p(t, t0 - 0.1, t0 + 0.45)); if (k <= 0) return; const A = ps[a].p, Bp = ps[b].p, end = [A[0] + (Bp[0] - A[0]) * k, A[1] + (Bp[1] - A[1]) * k];

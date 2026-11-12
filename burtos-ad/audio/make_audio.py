@@ -8,7 +8,7 @@ from scipy.signal import butter, sosfilt
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SR = 48000
-cfg = json.loads(subprocess.check_output(['node', '-e', "const B=require('./src/config.js');console.log(JSON.stringify({d:B.duration,cues:B.cues,cuts:B.cuts,vo:B.vo}))"], cwd=ROOT))
+cfg = json.loads(subprocess.check_output(['node', '-e', "const B=require('./src/config.js');console.log(JSON.stringify({d:B.duration,cues:B.cues,cuts:B.cuts,vo:B.vo,nt:(B.towns||[]).length}))"], cwd=ROOT))
 DUR, C = cfg['d'], cfg['cues']
 N = int(DUR * SR)
 rng = np.random.default_rng(45)
@@ -152,6 +152,7 @@ for i, tt in enumerate(C['reviews']): place(sfx, whoosh(0.4, 500, 4000, 0.25), t
 place(sfx, whoosh(0.9, 200, 3000, 0.4), C['mapZoom'][0])
 for i, tt in enumerate(C['points']): place(sfx, tone([1047 * (1 + 0.25 * i), 2094 * (1 + 0.25 * i)], 0.4, 0.09, 0.2, 0.06), tt)
 place(sfx, whoosh(1.0, 300, 3500, 0.35), C['circle'] - 0.4); place(sfx, tone([523, 784, 1047], 0.6, 0.2, 0.16, 0.1), C['circle'] + 0.1)
+for i in range(cfg['nt']): place(sfx, tone([1568 + 110 * i], 0.2, 0.05, 0.1), C['circle'] + 0.7 + i * 0.13, pan=0.3 * (-1) ** i)
 for i, tt in enumerate(C['info']): place(sfx, thump(), tt + 0.05, 1.0 if i == 0 else 0.6); place(sfx, click(1500), tt + 0.05, 0.6)
 place(sfx, impact(0.9), C['outroLogo'] + 0.1)
 for tt in C['outroLines'] + [C['outroSlogan']]: place(sfx, whoosh(0.4, 700, 5000, 0.22), tt - 0.1)

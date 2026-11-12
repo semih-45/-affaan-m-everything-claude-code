@@ -61,6 +61,16 @@
       { name: 'SARAN', lat: 47.951, lon: 1.876 },
       { name: 'FLEURY-LES-AUBRAIS', lat: 47.933, lon: 1.918 },
     ],
+    /* communes desservies affichées dans le rayon (label: 'bas' = étiquette sous le point) */
+    towns: [
+      { name: 'ARTENAY', lat: 48.083, lon: 1.878 },
+      { name: 'PATAY', lat: 48.048, lon: 1.695 },
+      { name: 'NEUVILLE-AUX-BOIS', lat: 48.068, lon: 2.054, label: 'bas' },
+      { name: 'CHÂTEAUNEUF', lat: 47.865, lon: 2.218, label: 'bas' },
+      { name: 'JARGEAU', lat: 47.866, lon: 2.123 },
+      { name: 'LA FERTÉ-SAINT-AUBIN', lat: 47.717, lon: 1.940, label: 'bas' },
+      { name: 'BEAUGENCY', lat: 47.778, lon: 1.632, label: 'bas' },
+    ],
     radiusKm: 30,
     mapInfo: ['LIVRAISON GRATUITE', '7J/7', 'MINIMUM DE 2 SANDWICHS POSSIBLE SELON LA DISTANCE'],
 
