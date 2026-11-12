@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Burtos — Motion design</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  @font-face { font-family: "Anton"; src: url("assets/anton.woff2") format("woff2"); font-display: block; }
+
+  :root {
+    --night: #0b0a14;
+    --night-2: #17132b;
+    --cheese: #ffc42e;
+    --hot: #ff4b2b;
+    --cream: #fff3dc;
+    --grey: #8d88a8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: #000; overflow: hidden; }
+  body { display: flex; align-items: center; justify-content: center; }
+
+  /* The stage is always 1080x1920 (9:16); it is scaled to fit the window for preview. */
+  #stage {
+    position: relative; width: 1080px; height: 1920px; flex: none;
+    overflow: hidden; background: var(--night);
+    font-family: "Anton", "Inter Display", "Inter", sans-serif;
+    color: var(--cream); text-transform: uppercase; line-height: 1;
+  }
+  .scene { position: absolute; inset: 0; visibility: hidden; overflow: hidden; }
+  .abs { position: absolute; }
+  .center-x { left: 0; right: 0; text-align: center; }
+  .sub { font-family: "Inter Display", "Inter", sans-serif; font-weight: 800; text-transform: none; letter-spacing: -0.01em; }
+  .ltr { display: inline-block; will-change: transform; }
+
+  /* Wipes */
+  .wipe { position: absolute; inset: -2px; z-index: 50; }
+
+  /* ---------- Scene 1 : la nuit ---------- */
+  #s1 { background: radial-gradient(120% 80% at 50% 110%, #2a1d52 0%, var(--night-2) 40%, var(--night) 75%); }
+  .star { position: absolute; border-radius: 50%; background: var(--cream); }
+  #moon { right: 110px; top: 190px; width: 190px; height: 190px; border-radius: 50%;
+          background: var(--cream); box-shadow: 0 0 90px 20px rgba(255,243,220,.28); }
+  #moon::after { content: ""; position: absolute; left: -38px; top: -22px; width: 190px; height: 190px; border-radius: 50%; background: #120f22; }
+  #clock { top: 520px; font-size: 330px; letter-spacing: 0.01em; }
+  #clock .colon { display: inline-block; color: var(--cheese); }
+  #faim { top: 900px; font-size: 215px; color: var(--cheese); }
+  #ferme { top: 1160px; font-size: 96px; color: var(--grey); letter-spacing: 0.02em; }
+  #sauf { top: 1320px; font-size: 230px; color: var(--hot); text-shadow: 0 0 60px rgba(255,75,43,.55); }
+
+  /* ---------- Scene 2 : BURGERS + TACOS = BURTOS ---------- */
+  #s2 { background: var(--cheese); color: var(--night); }
+  .row { left: 0; right: 0; text-align: center; font-size: 270px; white-space: nowrap; }
+  #rowA { top: 520px; }
+  #plus { top: 770px; font-size: 230px; color: var(--hot); }
+  #rowB { top: 980px; }
+  #final { top: 760px; z-index: 3; }
+  .ph { visibility: hidden; }
+  #pill { top: 1210px; left: 0; right: 0; text-align: center; }
+  #pill span { display: inline-block; background: var(--night); color: var(--cheese); font-size: 74px;
+               padding: 26px 54px 22px; border-radius: 999px; letter-spacing: 0.03em; }
+  #burst { left: 540px; top: 895px; width: 0; height: 0; }
+  #burst i { position: absolute; left: -9px; top: -70px; width: 18px; height: 140px; border-radius: 9px; background: var(--hot); transform-origin: 50% 50%; }
+
+  /* ---------- Scene 3 : burgers ---------- */
+  #s3 { background: radial-gradient(90% 60% at 50% 58%, #2b2150 0%, var(--night-2) 55%, var(--night) 100%); }
+  .title { top: 150px; font-size: 300px; }
+  #s3 .title { color: var(--cheese); }
+  #burger { left: 140px; top: 560px; width: 800px; height: 800px; overflow: visible; }
+  .caption { top: 1480px; font-size: 78px; line-height: 1.12; }
+  .ring { left: 540px; top: 1010px; width: 900px; height: 900px; margin: -450px 0 0 -450px; border-radius: 50%;
+          border: 6px dashed rgba(255,196,46,.28); }
+
+  /* ---------- Scene 4 : tacos ---------- */
+  #s4 { background: var(--hot); }
+  #s4 .title { color: var(--cream); }
+  #tacos { left: 165px; top: 500px; width: 750px; height: 900px; overflow: visible; }
+  #s4 .caption { color: var(--night); }
+  #s4 .ring { border-color: rgba(11,10,20,.22); }
+
+  /* ---------- Scene 5 : livraison ---------- */
+  #s5 { background: linear-gradient(#0b0a14 0%, #17132b 55%, #2a1d52 100%); }
+  #livre { top: 270px; font-size: 168px; color: var(--cream); }
+  #nuit { top: 470px; font-size: 168px; color: var(--cheese); }
+  .skyline { position: absolute; left: 0; bottom: 520px; height: 620px; width: 4320px; }
+  .skyline b { position: absolute; bottom: 0; display: block; }
+  .skyline b i { position: absolute; width: 14px; height: 20px; background: var(--cheese); opacity: .85; }
+  #road { left: 0; right: 0; bottom: 0; height: 520px; background: #06050c; }
+  #dashes { position: absolute; left: 0; top: 250px; width: 4320px; height: 16px;
+            background: repeating-linear-gradient(90deg, var(--cream) 0 150px, transparent 150px 360px); opacity: .7; }
+  #scooterWrap { left: 190px; bottom: 300px; width: 700px; height: 500px; }
+  #scooter { width: 700px; height: 500px; overflow: visible; }
+  .speed { position: absolute; height: 10px; border-radius: 5px; background: var(--cream); opacity: 0; }
+
+  /* ---------- Scene 6 : carte de fin ---------- */
+  #s6 { background: radial-gradient(90% 55% at 50% 45%, #2a1d52 0%, var(--night-2) 50%, var(--night) 100%); }
+  #logo { top: 590px; font-size: 325px; color: var(--cheese);
+          text-shadow: 10px 12px 0 var(--hot), 0 0 110px rgba(255,196,46,.45); }
+  #tagline { top: 1010px; font-size: 68px; letter-spacing: 0.05em; color: var(--cream); }
+  #tagline em { font-style: normal; color: var(--hot); padding: 0 14px; }
+  #cta { top: 1210px; left: 0; right: 0; text-align: center; }
+  #cta span { display: inline-block; background: var(--hot); color: var(--cream); font-size: 86px;
+              padding: 36px 70px 30px; border-radius: 28px; box-shadow: 0 14px 0 #a82a12; }
+  #contact { top: 1480px; font-size: 54px; color: var(--grey); }
+
+  #vignette { position: absolute; inset: 0; z-index: 40; pointer-events: none;
+              background: radial-gradient(75% 60% at 50% 50%, transparent 60%, rgba(0,0,0,.2) 100%); }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- 1. La nuit -->
+  <section class="scene" id="s1">
+    <div id="stars"></div>
+    <div class="abs" id="moon"></div>
+    <div class="abs center-x" id="clock">02<span class="colon">:</span>47</div>
+    <div class="abs center-x" id="faim">T'as faim ?</div>
+    <div class="abs center-x" id="ferme">Tout est fermé.</div>
+    <div class="abs center-x" id="sauf">Sauf nous.</div>
+  </section>
+
+  <!-- 2. Le nom -->
+  <section class="scene" id="s2">
+    <div class="abs row" id="rowA"><span class="ph ltr">B</span><span class="ph ltr">U</span><span class="ph ltr">R</span><span class="drop ltr">G</span><span class="drop ltr">E</span><span class="drop ltr">R</span><span class="drop ltr">S</span></div>
+    <div class="abs center-x" id="plus">+</div>
+    <div class="abs row" id="rowB"><span class="ph ltr">T</span><span class="drop ltr">A</span><span class="drop ltr">C</span><span class="ph ltr">O</span><span class="ph ltr">S</span></div>
+    <div class="abs" id="burst"></div>
+    <div class="abs row" id="final"><span class="keep ltr">B</span><span class="keep ltr">U</span><span class="keep ltr">R</span><span class="keep ltr">T</span><span class="keep ltr">O</span><span class="keep ltr">S</span></div>
+    <div class="abs" id="pill"><span>Livraison de nuit</span></div>
+  </section>
+
+  <!-- 3. Burgers -->
+  <section class="scene" id="s3">
+    <div class="abs ring"></div>
+    <div class="abs center-x title" data-split>Burgers</div>
+    <svg class="abs" id="burger" viewBox="0 0 600 600">
+      <ellipse id="bShadow" cx="300" cy="545" rx="230" ry="22" fill="#000" opacity=".45"/>
+      <g class="layer"><path d="M95 450 H505 V480 Q505 525 460 525 H140 Q95 525 95 480 Z" fill="#e39a45"/><path d="M95 450 H505 V466 H95 Z" fill="#f4c27a"/></g>
+      <g class="layer"><rect x="72" y="386" width="456" height="66" rx="33" fill="#4a2416"/><rect x="100" y="398" width="400" height="12" rx="6" fill="#6b3a25"/></g>
+      <g class="layer"><path d="M62 366 H538 L505 396 L462 384 L428 440 L392 384 L318 384 L270 414 L222 384 L112 384 Z" fill="#ffc42e" stroke="#ffc42e" stroke-width="10" stroke-linejoin="round"/></g>
+      <g class="layer"><rect x="92" y="328" width="416" height="36" rx="18" fill="#e8402a"/><rect x="120" y="336" width="150" height="8" rx="4" fill="#ff7a62"/></g>
+      <g class="layer"><path d="M60 330 Q85 296 112 322 Q140 348 168 322 Q196 296 224 322 Q252 348 280 322 Q308 296 336 322 Q364 348 392 322 Q420 296 448 322 Q476 348 504 322 Q528 300 540 328 L528 300 Q300 268 72 300 Z" fill="#6cc04a" stroke="#6cc04a" stroke-width="8" stroke-linejoin="round"/></g>
+      <g class="layer"><path d="M92 296 Q92 120 300 120 Q508 120 508 296 Q508 306 496 306 H104 Q92 306 92 296 Z" fill="#eda64c"/>
+        <path d="M150 232 Q170 160 262 146" fill="none" stroke="#f9cd8b" stroke-width="16" stroke-linecap="round"/>
+        <g fill="#fff3dc"><ellipse cx="300" cy="170" rx="13" ry="7" transform="rotate(-12 300 170)"/><ellipse cx="368" cy="196" rx="13" ry="7" transform="rotate(24 368 196)"/><ellipse cx="238" cy="206" rx="13" ry="7" transform="rotate(-30 238 206)"/><ellipse cx="420" cy="246" rx="13" ry="7" transform="rotate(40 420 246)"/><ellipse cx="318" cy="238" rx="13" ry="7" transform="rotate(8 318 238)"/><ellipse cx="190" cy="262" rx="13" ry="7" transform="rotate(-40 190 262)"/></g>
+      </g>
+    </svg>
+    <div class="abs center-x caption sub" id="cap3"><div>Bien chauds.</div><div style="color:var(--cheese)">Bien chargés.</div></div>
+  </section>
+
+  <!-- 4. Tacos -->
+  <section class="scene" id="s4">
+    <div class="abs ring"></div>
+    <div class="abs center-x title" data-split>Tacos</div>
+    <svg class="abs" id="tacos" viewBox="0 0 500 600">
+      <g id="tacosAll">
+        <ellipse cx="250" cy="572" rx="170" ry="18" fill="#000" opacity=".28"/>
+        <g id="fries" fill="#ffc42e" stroke="#e39a1c" stroke-width="4">
+          <rect class="fry" x="150" y="58" width="30" height="150" rx="6" transform="rotate(-14 165 208)"/>
+          <rect class="fry" x="196" y="30" width="30" height="170" rx="6" transform="rotate(-5 211 200)"/>
+          <rect class="fry" x="242" y="44" width="30" height="160" rx="6" transform="rotate(4 257 204)"/>
+          <rect class="fry" x="286" y="26" width="30" height="170" rx="6" transform="rotate(11 301 196)"/>
+          <rect class="fry" x="326" y="66" width="30" height="140" rx="6" transform="rotate(20 341 206)"/>
+        </g>
+        <rect x="110" y="150" width="280" height="410" rx="46" fill="#e6bd80"/>
+        <rect x="110" y="150" width="60" height="410" rx="30" fill="#f1d3a2"/>
+        <g stroke="#9a5a28" stroke-width="15" stroke-linecap="round" opacity=".9">
+          <line x1="150" y1="262" x2="350" y2="222"/><line x1="150" y1="322" x2="350" y2="282"/><line x1="150" y1="382" x2="350" y2="342"/>
+        </g>
+        <g id="sauce" fill="#ffb21e">
+          <path d="M106 150 Q106 126 140 126 H360 Q394 126 394 150 V176 H106 Z"/>
+          <rect class="drip" x="140" y="168" width="34" height="74" rx="17"/>
+          <rect class="drip" x="214" y="168" width="30" height="46" rx="15"/>
+          <rect class="drip" x="286" y="168" width="36" height="96" rx="18"/>
+          <rect class="drip" x="346" y="168" width="28" height="52" rx="14"/>
+        </g>
+        <g id="paper">
+          <path d="M96 400 L404 368 V530 Q404 566 368 566 H132 Q96 566 96 530 Z" fill="#fff3dc"/>
+          <path d="M96 400 L404 368 V398 L96 430 Z" fill="#0b0a14"/>
+          <text x="250" y="512" text-anchor="middle" font-family="Anton" font-size="78" fill="#0b0a14" transform="rotate(-5.9 250 500)">BURTOS</text>
+        </g>
+      </g>
+    </svg>
+    <div class="abs center-x caption sub" id="cap4"><div>Garnis</div><div style="color:var(--cream)">comme il faut.</div></div>
+  </section>
+
+  <!-- 5. Livraison -->
+  <section class="scene" id="s5">
+    <div id="stars5"></div>
+    <div class="abs center-x" id="livre" data-split>Livré chez toi</div>
+    <div class="abs center-x" id="nuit" data-split>Toute la nuit</div>
+    <div class="skyline" id="skyFar"></div>
+    <div class="skyline" id="skyNear"></div>
+    <div class="abs" id="road"><div id="dashes"></div></div>
+    <div id="speeds"></div>
+    <div class="abs" id="scooterWrap">
+      <svg id="scooter" viewBox="0 0 700 500">
+        <ellipse cx="350" cy="462" rx="300" ry="14" fill="#000" opacity=".5"/>
+        <!-- phare -->
+        <path id="beam" d="M590 250 L1000 180 L1000 400 Z" fill="#ffc42e" opacity=".16"/>
+        <!-- roues -->
+        <g class="wheel"><circle cx="150" cy="390" r="68" fill="#17132b" stroke="#fff3dc" stroke-width="14"/><path d="M150 334 V446 M94 390 H206" stroke="#8d88a8" stroke-width="8"/><circle cx="150" cy="390" r="14" fill="#fff3dc"/></g>
+        <g class="wheel"><circle cx="545" cy="390" r="68" fill="#17132b" stroke="#fff3dc" stroke-width="14"/><path d="M545 334 V446 M489 390 H601" stroke="#8d88a8" stroke-width="8"/><circle cx="545" cy="390" r="14" fill="#fff3dc"/></g>
+        <!-- carrosserie -->
+        <path d="M96 372 Q100 296 190 290 H330 Q352 290 362 312 L392 372 H452 Q470 372 476 354 L512 236 H552 L574 372 Q520 300 476 400 H240 Q226 320 150 318 Q110 320 96 372 Z" fill="#ff4b2b"/>
+        <path d="M506 236 L536 150 H560 L552 236 Z" fill="#ff4b2b"/>
+        <rect x="518" y="138" width="78" height="18" rx="9" fill="#fff3dc"/>
+        <circle cx="580" cy="244" r="20" fill="#ffc42e"/>
+        <rect x="186" y="266" width="170" height="30" rx="15" fill="#0b0a14"/>
+        <!-- caisson -->
+        <rect x="52" y="120" width="190" height="150" rx="18" fill="#ffc42e"/>
+        <rect x="52" y="120" width="190" height="34" rx="17" fill="#e39a1c"/>
+        <text x="147" y="232" text-anchor="middle" font-family="Anton" font-size="58" fill="#0b0a14">BURTOS</text>
+        <!-- livreur -->
+        <path d="M300 276 L380 366 H426" fill="none" stroke="#0b0a14" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M290 270 Q282 150 356 112" fill="none" stroke="#fff3dc" stroke-width="72" stroke-linecap="round"/>
+        <path d="M350 140 L450 190 L528 150" fill="none" stroke="#fff3dc" stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="386" cy="62" r="52" fill="#ffc42e"/>
+        <path d="M398 44 H436 Q442 62 434 82 H398 Z" fill="#0b0a14"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- 6. Carte de fin -->
+  <section class="scene" id="s6">
+    <div id="stars6"></div>
+    <div class="abs center-x" id="logo" data-split>Burtos</div>
+    <div class="abs center-x" id="tagline">Tacos<em>•</em>Burgers<em>•</em>Livraison de nuit</div>
+    <div class="abs" id="cta"><span>Commande maintenant</span></div>
+    <div class="abs center-x sub" id="contact"></div>
+  </section>
+
+  <div class="wipe" id="w1"></div>
+  <div class="wipe" id="w2"></div>
+  <div id="vignette"></div>
+</div>
+
+<script src="assets/gsap.min.js"></script>
+<script>
+/* ============================================================
+   À PERSONNALISER : textes, couleurs (voir :root en haut), contact
+   ============================================================ */
+const CONFIG = {
+  contact: "",            // ex. "@burtos · 06 00 00 00 00" — vide = ligne masquée
+};
+
+const DURATION = 20;      // secondes
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+
+// Aléatoire à graine fixe : le rendu est identique à chaque export.
+let seed = 7;
+const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+
+function fitStage() {
+  const s = Math.min(innerWidth / 1080, innerHeight / 1920);
+  $("#stage").style.transform = `scale(${s})`;
+}
+
+function stars(el, n, maxY) {
+  for (let i = 0; i < n; i++) {
+    const d = document.createElement("div");
+    const size = 3 + rnd() * 5;
+    d.className = "star";
+    d.style.cssText = `left:${rnd() * 1080}px;top:${rnd() * maxY}px;width:${size}px;height:${size}px;opacity:${0.25 + rnd() * 0.6}`;
+    el.appendChild(d);
+  }
+}
+
+function skyline(el, color, minH, maxH, windows) {
+  let x = 0;
+  while (x < 4320) {
+    const w = 110 + rnd() * 170, h = minH + rnd() * (maxH - minH);
+    const b = document.createElement("b");
+    b.style.cssText = `left:${x}px;width:${w}px;height:${h}px;background:${color}`;
+    if (windows) {
+      for (let wy = 30; wy < h - 40; wy += 52)
+        for (let wx = 22; wx < w - 30; wx += 40)
+          if (rnd() < 0.3) { const i = document.createElement("i"); i.style.left = wx + "px"; i.style.top = wy + "px"; b.appendChild(i); }
+    }
+    el.appendChild(b);
+    x += w + (rnd() < 0.25 ? 30 : 0);
+  }
+}
+
+function split(el) {
+  const text = el.textContent; el.textContent = "";
+  return [...text].map(ch => {
+    const s = document.createElement("span");
+    s.className = "ltr"; s.textContent = ch === " " ? " " : ch;
+    el.appendChild(s); return s;
+  });
+}
+
+function build() {
+  stars($("#stars"), 70, 1500); stars($("#stars5"), 50, 900); stars($("#stars6"), 80, 1920);
+  skyline($("#skyFar"), "#1d1838", 260, 600, false);
+  skyline($("#skyNear"), "#120f22", 140, 420, true);
+  for (let i = 0; i < 12; i++) { const r = document.createElement("i"); $("#burst").appendChild(r); }
+  for (let i = 0; i < 7; i++) {
+    const s = document.createElement("div"); s.className = "speed";
+    s.style.cssText = `left:0;top:${1150 + rnd() * 520}px;width:${160 + rnd() * 260}px`;
+    $("#speeds").appendChild(s);
+  }
+  $("#speeds").style.cssText = "position:absolute;inset:0";
+  if (CONFIG.contact) $("#contact").textContent = CONFIG.contact;
+
+  gsap.set(".wipe", { yPercent: 101 });
+  const tl = gsap.timeline({ paused: true, defaults: { ease: "power3.out" } });
+  const show = (id, t) => tl.set(id, { autoAlpha: 1 }, t);
+  const hide = (id, t) => tl.set(id, { autoAlpha: 0 }, t);
+
+  // Transition : deux volets colorés qui traversent l'écran de bas en haut.
+  function wipe(t, c1, c2, from, to) {
+    tl.set("#w1", { background: c1 }, t).set("#w2", { background: c2 }, t)
+      .fromTo("#w1", { yPercent: 101 }, { yPercent: 0, duration: 0.32, ease: "power3.in" }, t)
+      .fromTo("#w2", { yPercent: 101 }, { yPercent: 0, duration: 0.32, ease: "power3.in" }, t + 0.09);
+    hide(from, t + 0.41); show(to, t + 0.41);
+    tl.to("#w2", { yPercent: -101, duration: 0.4, ease: "power3.out" }, t + 0.42)
+      .to("#w1", { yPercent: -101, duration: 0.4, ease: "power3.out" }, t + 0.42);
+  }
+  const slam = (sel, t, extra = {}) =>
+    tl.fromTo(sel, { scale: 2.4, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.42, ease: "expo.out", ...extra }, t);
+  const letters = (els, t, o = {}) =>
+    tl.fromTo(els, { yPercent: 110, rotation: 8, autoAlpha: 0 },
+      { yPercent: 0, rotation: 0, autoAlpha: 1, duration: 0.55, ease: "back.out(1.9)", stagger: 0.045, ...o }, t);
+
+  /* ---------- 1. La nuit (0 → 3.6) ---------- */
+  show("#s1", 0);
+  tl.fromTo("#moon", { y: 140, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 1.2 }, 0)
+    .to("#moon", { y: -40, duration: 3.6, ease: "none" }, 0.0)
+    .fromTo("#stars", { y: 30 }, { y: -30, duration: 3.7, ease: "none" }, 0)
+    .fromTo("#clock", { scale: 0.7, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.6, ease: "back.out(2)" }, 0.1)
+    .to("#clock .colon", { autoAlpha: 0, duration: 0.01, repeat: 5, repeatDelay: 0.3, yoyo: true }, 0.45)
+    .to("#clock", { y: -150, scale: 0.72, duration: 0.5, ease: "power3.inOut" }, 0.85);
+  slam("#faim", 0.95);
+  tl.to("#faim", { y: -110, duration: 0.45, ease: "power3.inOut" }, 1.75)
+    .fromTo("#ferme", { y: 60, autoAlpha: 0 }, { y: -90, autoAlpha: 1, duration: 0.45 }, 1.8);
+  slam("#sauf", 2.55, { y: -70 });
+  tl.fromTo("#stage", { x: 0 }, { x: 14, duration: 0.04, repeat: 5, yoyo: true, ease: "none" }, 2.6)
+    .set("#stage", { x: 0 }, 2.86)
+    .to(["#clock", "#faim", "#ferme"], { autoAlpha: 0.25, duration: 0.3 }, 2.6);
+  wipe(3.2, "#ff4b2b", "#ffc42e", "#s1", "#s2");
+
+  /* ---------- 2. BURGERS + TACOS = BURTOS (3.6 → 7.1) ---------- */
+  // Les lettres gardées (B,U,R,T,O,S) vivent dans le mot final et partent de leur place d'origine.
+  const keep = $$("#final .keep"), ph = $$("#s2 .ph"), drops = $$("#s2 .drop");
+  const src = ph.map(p => p.getBoundingClientRect());   // place d'origine de chaque lettre gardée
+  const scale = $("#stage").getBoundingClientRect().width / 1080;
+  keep.forEach((k, i) => { const r = k.getBoundingClientRect();
+    gsap.set(k, { x: (src[i].left - r.left) / scale, y: (src[i].top - r.top) / scale }); });
+
+  letters([keep[0], keep[1], keep[2], ...drops.slice(0, 4)], 3.7);
+  tl.fromTo("#plus", { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2.5)" }, 3.95);
+  letters([keep[3], drops[4], drops[5], keep[4], keep[5]], 4.0);
+  tl.to(drops, { y: () => 1500 + rnd() * 300, x: () => (rnd() - 0.5) * 500, rotation: () => (rnd() - 0.5) * 240,
+                 duration: 0.85, ease: "power2.in", stagger: 0.035 }, 4.75)
+    .to("#plus", { scale: 0, rotation: 180, duration: 0.3, ease: "back.in(2)" }, 4.8)
+    .to(keep, { x: 0, y: 0, duration: 0.65, ease: "expo.inOut", stagger: 0.02 }, 4.95)
+    .to("#final", { scale: 1.3, duration: 0.5, ease: "back.out(3)" }, 5.55)
+    .fromTo(keep, { textShadow: "0px 0px 0 #ff4b2b" }, { textShadow: "9px 11px 0 #ff4b2b", duration: 0.3 }, 5.55);
+  $$("#burst i").forEach((r, i) => {
+    const a = i * 30;
+    tl.fromTo(r, { rotation: a, x: Math.sin(a * Math.PI / 180) * 260, y: -Math.cos(a * Math.PI / 180) * 260, scaleY: 0, autoAlpha: 1 },
+      { x: Math.sin(a * Math.PI / 180) * 560, y: -Math.cos(a * Math.PI / 180) * 560, scaleY: 1, duration: 0.3, ease: "power2.out" }, 5.55)
+      .to(r, { scaleY: 0, x: Math.sin(a * Math.PI / 180) * 680, y: -Math.cos(a * Math.PI / 180) * 680, duration: 0.25, ease: "power2.in" }, 5.85);
+  });
+  tl.fromTo("#pill span", { yPercent: 160, autoAlpha: 0, rotation: -6 }, { yPercent: 0, autoAlpha: 1, rotation: 0, duration: 0.5, ease: "back.out(2)" }, 5.9)
+    .to("#final", { rotation: -2, duration: 1.0, ease: "sine.inOut" }, 6.0);
+  wipe(6.7, "#ff4b2b", "#0b0a14", "#s2", "#s3");
+
+  /* ---------- 3. Burgers (7.1 → 10.3) ---------- */
+  letters(split($("#s3 .title")), 7.15);
+  tl.fromTo("#s3 .ring", { scale: 0.6, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.7 }, 7.15)
+    .to("#s3 .ring", { rotation: 40, duration: 3.3, ease: "none" }, 7.1)
+    .fromTo("#bShadow", { scaleX: 0.2, autoAlpha: 0, transformOrigin: "50% 50%" }, { scaleX: 1, autoAlpha: 0.45, duration: 0.9 }, 7.3);
+  $$("#burger .layer").forEach((l, i) => {
+    const t = 7.3 + i * 0.17;
+    tl.fromTo(l, { y: -1100, rotation: (i % 2 ? 1 : -1) * 14, transformOrigin: "50% 50%" },
+      { y: 0, rotation: 0, duration: 0.5, ease: "power2.in" }, t)
+      .fromTo(l, { scaleY: 0.6, scaleX: 1.12, transformOrigin: "50% 100%" }, { scaleY: 1, scaleX: 1, duration: 0.45, ease: "elastic.out(1.1, 0.45)", immediateRender: false }, t + 0.5);
+  });
+  tl.fromTo("#burger", { scaleY: 1, scaleX: 1, transformOrigin: "50% 92%" }, { scaleY: 0.86, scaleX: 1.07, duration: 0.1, ease: "power2.out" }, 8.65)
+    .to("#burger", { scaleY: 1, scaleX: 1, duration: 0.7, ease: "elastic.out(1.2, 0.35)" }, 8.75)
+    .to("#burger", { rotation: 4, y: -18, duration: 1.3, ease: "sine.inOut" }, 8.9)
+    .fromTo("#cap3 div", { yPercent: 120, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.45, stagger: 0.14 }, 8.7);
+  wipe(9.9, "#ffc42e", "#ff4b2b", "#s3", "#s4");
+
+  /* ---------- 4. Tacos (10.3 → 13.5) ---------- */
+  letters(split($("#s4 .title")), 10.35);
+  tl.fromTo("#s4 .ring", { scale: 0.6, autoAlpha: 0 }, { scale: 1, autoAlpha: 1, duration: 0.7 }, 10.35)
+    .to("#s4 .ring", { rotation: -40, duration: 3.3, ease: "none" }, 10.3)
+    .fromTo("#tacos", { y: 1500, rotation: -38 }, { y: 0, rotation: 7, duration: 0.85, ease: "back.out(1.5)" }, 10.45)
+    .fromTo(".fry", { y: 170 }, { y: 0, duration: 0.5, ease: "back.out(3)", stagger: 0.07 }, 11.1)
+    .fromTo(".drip", { scaleY: 0, transformOrigin: "50% 0%" }, { scaleY: 1, duration: 1.1, ease: "power2.out", stagger: 0.12 }, 11.3)
+    .to("#tacos", { rotation: 3, y: -16, duration: 1.6, ease: "sine.inOut" }, 11.4)
+    .fromTo("#cap4 div", { yPercent: 120, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.45, stagger: 0.14 }, 11.7);
+  wipe(13.1, "#ffc42e", "#0b0a14", "#s4", "#s5");
+
+  /* ---------- 5. Livraison (13.5 → 16.7) ---------- */
+  tl.fromTo("#skyFar", { x: 0 }, { x: -520, duration: 3.4, ease: "none" }, 13.4)
+    .fromTo("#skyNear", { x: 0 }, { x: -1300, duration: 3.4, ease: "none" }, 13.4)
+    .fromTo("#dashes", { x: 0 }, { x: -2880, duration: 3.4, ease: "none" }, 13.4)
+    .fromTo(".wheel", { rotation: 0, transformOrigin: "50% 50%" }, { rotation: 360 * 9, duration: 3.4, ease: "none" }, 13.4)
+    .fromTo("#scooterWrap", { x: -1000 }, { x: 0, duration: 0.9, ease: "power3.out" }, 13.55)
+    .fromTo("#scooter", { y: 0 }, { y: -9, duration: 0.14, repeat: 19, yoyo: true, ease: "sine.inOut" }, 13.6)
+    .fromTo("#scooter", { rotation: -7, transformOrigin: "20% 90%" }, { rotation: 0, duration: 0.7, ease: "elastic.out(1, 0.5)" }, 13.9);
+  $$(".speed").forEach((s, i) => {
+    tl.fromTo(s, { x: 1200, autoAlpha: 0.55 }, { x: -700, duration: 0.42, ease: "none", repeat: 5, repeatDelay: 0.12 + (i % 3) * 0.07 }, 13.7 + i * 0.13)
+      .set(s, { autoAlpha: 0 }, 16.75);
+  });
+  letters(split($("#livre")), 14.1, { stagger: 0.028 });
+  letters(split($("#nuit")), 14.55, { stagger: 0.028 });
+  tl.to("#scooterWrap", { x: 1400, duration: 0.55, ease: "power3.in" }, 16.15)
+    .to("#scooter", { rotation: -10, duration: 0.3, ease: "power2.in" }, 16.1);
+  wipe(16.3, "#ff4b2b", "#ffc42e", "#s5", "#s6");
+
+  /* ---------- 6. Carte de fin (16.7 → 20) ---------- */
+  const logo = split($("#logo"));
+  tl.fromTo(logo, { scale: 3, autoAlpha: 0, rotation: () => (rnd() - 0.5) * 50 },
+      { scale: 1, autoAlpha: 1, rotation: 0, duration: 0.5, ease: "expo.out", stagger: 0.06 }, 16.8)
+    .fromTo("#logo", { rotation: -3 }, { rotation: -3, duration: 0.01 }, 16.8)
+    .to("#logo", { autoAlpha: 0.35, duration: 0.03, repeat: 3, yoyo: true, repeatDelay: 0.05 }, 17.5)
+    .fromTo("#tagline", { y: 50, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.5 }, 17.55)
+    .fromTo("#cta span", { scale: 0, rotation: -8 }, { scale: 1, rotation: 0, duration: 0.6, ease: "back.out(2.2)" }, 17.9)
+    .to("#cta span", { scale: 1.06, duration: 0.35, repeat: 3, yoyo: true, ease: "sine.inOut" }, 18.55)
+    .fromTo("#contact", { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.5 }, 18.3)
+    .fromTo("#stars6", { y: 20 }, { y: -30, duration: 3.4, ease: "none" }, 16.6);
+
+  tl.set({}, {}, DURATION);
+  return tl;
+}
+
+const capture = new URLSearchParams(location.search).has("capture");
+(async () => {
+  if (!capture) { fitStage(); addEventListener("resize", fitStage); }
+  await Promise.all([document.fonts.load('270px "Anton"'), document.fonts.load('800 78px "Inter Display"')]);
+  await document.fonts.ready;
+  const tl = build();
+  window.DURATION = DURATION;
+  window.seek = t => { tl.time(t, false); };
+  window.ready = true;
+  if (capture) { gsap.ticker.sleep(); tl.time(0); }
+  else { tl.repeat(-1).repeatDelay(0.6).play(0); }   // aperçu en boucle dans le navigateur
+})();
+</script>
+</body>
+</html>
