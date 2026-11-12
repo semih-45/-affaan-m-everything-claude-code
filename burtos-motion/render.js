@@ -1,4 +1,5 @@
 // Exporte l'animation en MP4 (1080x1920, 30 i/s).
+//   python3 make_audio.py         → burtos-audio.wav (bande-son, à lancer avant)
 //   node render.js                → burtos.mp4
 //   node render.js --frames 1,5.6 → images fixes dans ./frames (pour vérifier)
 const { chromium } = require('playwright');
@@ -30,7 +31,11 @@ const framesArg = process.argv.indexOf('--frames');
   }
 
   const out = path.join(__dirname, 'burtos.mp4');
+  // La bande-son est ajoutée si burtos-audio.wav existe (python3 make_audio.py).
+  const audio = path.join(__dirname, 'burtos-audio.wav');
+  const withAudio = fs.existsSync(audio);
   const ff = spawn('ffmpeg', ['-y', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'mjpeg', '-i', '-',
+    ...(withAudio ? ['-i', audio, '-c:a', 'aac', '-b:a', '192k', '-shortest'] : []),
     '-c:v', 'libx264', '-preset', 'slow', '-crf', '17', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', out],
     { stdio: ['pipe', 'inherit', 'inherit'] });
   const total = Math.round(duration * FPS);
