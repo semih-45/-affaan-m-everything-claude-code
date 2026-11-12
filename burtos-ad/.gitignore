@@ -1,0 +1,5 @@
+node_modules/
+audio/models/
+out/stills/
+out/_*.mp4
+out/build.log
