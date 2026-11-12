@@ -146,7 +146,7 @@ html, body { width: 100%; height: 100%; background: #000; overflow: hidden; }
 .reviews .rc .txt { margin-top: 18px; font-size: 40px; line-height: 1.18; font-weight: 800; }
 .reviews .rc .stars svg { width: 54px; height: 54px; }
 .reviews .disc { left: 0; right: 0; bottom: 36px; text-align: center; }
-.v .reviews .ttl { top: 8%; font-size: 104px; } .v .reviews .rc { width: 800px; padding: 40px 46px; } .v .reviews .rc .txt { font-size: 52px; } .v .reviews .rc .stars svg { width: 66px; height: 66px; } .v .reviews .rc .who { font-size: 36px; }
+.v .reviews .ttl { top: 6%; font-size: 104px; } .v .reviews .rc { width: 800px; padding: 40px 46px; } .v .reviews .rc .txt { font-size: 52px; } .v .reviews .rc .stars svg { width: 66px; height: 66px; } .v .reviews .rc .who { font-size: 36px; }
 
 /* ================= SCÈNE 5 ================= */
 .map { background: #08080C; }

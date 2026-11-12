@@ -1,7 +1,7 @@
 /* SCÈNE 4 — Avis clients : cartes flottantes en profondeur */
 (function () {
   const B = window.BURTOS, U = window.U, [S, E] = B.T.reviews, C = B.cues;
-  const LAY = { h: [[110, 330, -4], [675, 520, 2.5], [1240, 310, -2]], v: [[90, 500, -3], [190, 900, 2.5], [90, 1300, -2]] };
+  const LAY = { h: [[110, 330, -4], [675, 520, 2.5], [1240, 310, -2]], v: [[90, 600, -3], [190, 980, 2.5], [90, 1360, -2]] };
   B.scenes.push({
     id: 'reviews', start: S, end: E,
     build(root, { V }) {
