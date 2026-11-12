@@ -72,7 +72,7 @@
       { name: 'BEAUGENCY', lat: 47.778, lon: 1.632, label: 'bas' },
     ],
     radiusKm: 30,
-    mapInfo: ['LIVRAISON GRATUITE', '7J/7', 'MINIMUM DE 2 SANDWICHS POSSIBLE SELON LA DISTANCE'],
+    mapInfo: ['LIVRAISON GRATUITE', '7J/7', 'MINIMUM DE COMMANDE SELON LA DISTANCE'],
 
     /* ---------- Textes ---------- */
     text: {

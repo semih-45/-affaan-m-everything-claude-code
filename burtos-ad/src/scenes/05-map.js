@@ -11,7 +11,7 @@
     build(root, ctx) {
       root.innerHTML = `<div class="rad">${U.words(B.text.mapRadius.replace(/(\d+) KM/, '*$1_KM*')).replace('_', '&nbsp;')}</div>
         <div class="info i1">${B.mapInfo[0]}</div><div class="info i2">${B.mapInfo[1]}</div>
-        <div class="info i3"><span>${B.mapInfo[2].replace(/(MINIMUM DE 2 SANDWICHS)/, '<b>$1</b>')}</span></div>`;
+        <div class="info i3"><span>${B.mapInfo[2].replace(/(MINIMUM DE COMMANDE)/, '<b>$1</b><br>')}</span></div>`;
       this.c = U.fxCanvas(ctx); this.c.className = ''; root.insertBefore(this.c, root.firstChild);
       const $ = s => root.querySelector(s); this.n = { rad: $('.rad'), i: [$('.i1'), $('.i2'), $('.i3')] };
       this.pts = B.zones.map(z => ({ ...z, p: km(z.lat, z.lon) }));
