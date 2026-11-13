@@ -58,11 +58,11 @@ barre d'espace pour lire, clic sur la barre du bas pour naviguer.
 
 ## Voix off
 
-Générée localement avec Piper (voix française libre `fr_FR-siwis-medium`) :
+Générée localement avec Piper (voix masculine française libre `fr_FR-tom-medium`, rehaussée de 5 %) :
 
 ```bash
 pip install piper-tts
-echo "Texte" | python3 -m piper -m fr_FR-siwis-medium.onnx --length-scale 0.9 -f audio/voice/vo1.wav
+echo "Texte" | python3 -m piper -m fr_FR-tom-medium.onnx --length-scale 0.9 --noise-scale 0.8 --noise-w-scale 0.95 -f audio/voice/vo1.wav
 ```
 
 Pour une voix enregistrée : remplacer `audio/voice/vo1.wav` … `vo6.wav` (mêmes durées approximatives),
