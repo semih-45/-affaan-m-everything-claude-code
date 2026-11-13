@@ -249,7 +249,7 @@ if __name__ == '__main__':
         raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', perso, '-f', 'f32le', '-ac', '2', '-ar', str(SR), '-'], capture_output=True).stdout
         m = np.zeros((N, 2)); x = np.frombuffer(raw, np.float32).reshape(-1, 2)[:N]; m[:len(x)] = x; print('musique personnalisée utilisée')
     else: m = musique()
-    m = m / np.abs(m).max() * .9; s = sfx(); s = s / np.abs(s).max() * .9; v = voix()
+    m = m / np.abs(m).max() * .9 * (0 if os.environ.get('BURTOS_MUSIQUE') == '0' else 1); s = sfx()   # BURTOS_MUSIQUE=0 : voix + bruitages seuls; s = s / np.abs(s).max() * .9; v = voix()
     # la musique s'efface sous la voix (ducking)
     ve = np.sqrt(signal.sosfilt(signal.butter(1, 5, 'low', fs=SR, output='sos'), v ** 2)); ve = np.roll(ve, -int(.08 * SR))
     duck = 1 - .62 * np.clip(ve / .06, 0, 1)
