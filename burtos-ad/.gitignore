@@ -3,3 +3,5 @@ audio/models/
 out/stills/
 out/_*.mp4
 out/build.log
+out/tts.log
+audio/voice/*.tmp.wav
