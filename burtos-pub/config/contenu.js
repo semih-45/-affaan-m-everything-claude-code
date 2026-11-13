@@ -60,7 +60,7 @@ window.BURTOS_CONFIG = {
     { de: 'client', texte: 'Top, merci beaucoup !' },
   ],
   conversationTitres: ['UNE PETITE FAIM ?', 'QUELQUES MESSAGES SUFFISENT,', "BURTOS S'OCCUPE DU RESTE !"],
-  mentionSituation: 'MISE EN SITUATION',
+  mentionSituation: '',   // ex. 'MISE EN SITUATION' — vide = mention masquée
 
   // SCÈNE 4 — Avis (EXEMPLES : à remplacer par de vrais témoignages autorisés avant diffusion)
   avisTitre: 'ET NOS CLIENTS EN PARLENT *MIEUX* *QUE* *NOUS* !',

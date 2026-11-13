@@ -193,7 +193,32 @@ def sfx():
     return s + wet * .6
 
 # ---------------- VOIX OFF ----------------
+def voix_synthese(cfg):
+    """Voix générée localement (Piper, voix française « tom ») à partir de config/voix-off.json."""
+    from piper import PiperVoice
+    from piper.config import SynthesisConfig
+    pv = PiperVoice.load(os.path.join(R, 'assets/voix-off/modele/fr_FR-tom-medium.onnx'))
+    v = np.zeros(N); fin = 0
+    for k, ph in enumerate(cfg['phrases']):
+        out = os.path.join(R, f'assets/voix-off/synthese/phrase-{k + 1:02d}.wav')
+        with wave.open(out, 'wb') as w: pv.synthesize_wav(ph.get('dit', ph['texte']), w, syn_config=SynthesisConfig(length_scale=ph.get('vitesse', cfg.get('vitesse', .9)), noise_scale=.8, noise_w_scale=.9))
+        w = wave.open(out); a = np.frombuffer(w.readframes(w.getnframes()), np.int16) / 32768; sr = w.getframerate()
+        a = signal.resample_poly(a, SR, sr); nz = np.where(np.abs(a) > .01)[0]; a = fade(a[max(0, nz[0] - 200):nz[-1] + 2000], .005, .03)
+        a = a / np.abs(a).max()
+        if ph['position'] < fin: print(f"  ATTENTION : la phrase {k + 1} commence avant la fin de la précédente ({fin:.2f} s)")
+        i = int(ph['position'] * SR); v[i:i + len(a)] += a[:N - i]; fin = ph['position'] + len(a) / SR
+        print(f"  phrase {k + 1:2d} : {ph['position']:5.2f} -> {fin:5.2f} s  {ph['texte']}")
+    v = filt(v, 'high', 90)
+    e = np.sqrt(signal.sosfilt(signal.butter(1, 12, 'low', fs=SR, output='sos'), v ** 2) + 1e-9); thr = .12
+    v *= np.where(e > thr, (thr / e) ** .5, 1); v += filt(v, 'band', [2500, 7000]) * .45
+    return v / np.abs(v).max()
+
 def voix():
+    import json
+    cj = os.path.join(R, 'config/voix-off.json')
+    if os.path.exists(cj):
+        cfg = json.load(open(cj))
+        if cfg.get('mode') == 'synthese': return voix_synthese(cfg)
     src = os.path.join(R, 'assets/voix-off/voix-off-originale.mp3')
     raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', src, '-f', 'f32le', '-ac', '1', '-ar', str(SR), '-'], capture_output=True).stdout
     a = np.frombuffer(raw, np.float32).astype(np.float64); a = filt(a, 'high', 85)

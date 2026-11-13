@@ -42,9 +42,12 @@ même façon dans `config/contenu.js` (`instagram: '@…'` fait apparaître la p
 
 ## Voix off
 
-La voix utilisée est le fichier fourni (`assets/voix-off/voix-off-originale.mp3`), découpé en 4 phrases
-replacées sur les scènes (tableau `VOIX` en haut de `outils/audio.py`). Pour une nouvelle prise :
-remplacer le fichier et ajuster les 4 lignes (début, fin, position).
+La voix actuelle est une voix de synthèse générée localement (Piper, voix française « tom ») à partir
+des phrases de `config/voix-off.json` : `texte` = phrase, `dit` = orthographe phonétique lue par la voix
+(n'affecte jamais l'écran), `position` = seconde de départ. Modifier puis relancer `python3 outils/audio.py`.
+Le modèle (`assets/voix-off/modele/fr_FR-tom-medium.onnx`, non versionné) se télécharge depuis
+`huggingface.co/rhasspy/piper-voices` (fr/fr_FR/tom/medium) ; `pip install piper-tts`.
+Pour revenir à un enregistrement réel : mettre `"mode": "fichier"` et ajuster le tableau `VOIX` de `outils/audio.py`.
 
 Texte du storyboard à enregistrer pour une version complète (prononciation des noms à contrôler) :
 
@@ -79,4 +82,4 @@ Aperçu temps réel dans un navigateur : ouvrir `src/index.html?play=1` (ajouter
 ## Avant diffusion
 
 - Les 3 avis sont des **exemples** : les remplacer par de vrais témoignages autorisés.
-- La conversation porte la mention « MISE EN SITUATION ».
+- La mention « MISE EN SITUATION » de la conversation est masquée (`mentionSituation` dans `config/contenu.js`).

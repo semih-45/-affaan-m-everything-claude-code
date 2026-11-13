@@ -82,7 +82,7 @@
       [.3, 1.5, 2.3].forEach((t0, i) => heads[i].spans.forEach((s, j) => B.pop(s, p(t, t0 + j * .09, t0 + .3 + j * .09), 50, 1.5)));
       heads.forEach(e => { e.style.opacity = 1 - out; });
       pills.items.forEach((e, i) => { const q = p(t, 3.1 + i * .18, 3.45 + i * .18); e.style.opacity = q * 3 * (1 - out); e.style.transform = `scale(${E.back(q)})`; });
-      tagEl.style.opacity = p(t, .8, 1.1) * (1 - out);
+      tagEl.style.opacity = C.mentionSituation ? p(t, .8, 1.1) * (1 - out) : 0;
       // effets
       const c = fx.ctx;
       if (t >= TCONF) { const a = t - TCONF, yy = PY - PH * .28; fx.burst(PX, yy, a, { n: 60, seed: 3, speed: 1300, life: .8, color: '160,240,110', size: 5 }); fx.ring(PX, yy, 60 + 520 * E.out3(a / .7), (1 - a / .7) * .8, { color: '160,240,110', w: 6 }); }
