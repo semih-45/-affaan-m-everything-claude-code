@@ -1,8 +1,42 @@
 {
-  "vo1": {"max": 4.4, "segs": ["La nuit tombe sur Orléans, mais chez Burtos, la gourmandise ne dort jamais !"]},
-  "vo2": {"max": 7.4, "segs": ["Tacos généreux, burgers gourmands !", "Chez Burtos, il y a de quoi satisfaire toutes les envies, même au milieu de la nuit !"]},
-  "vo3": {"max": 5.9, "segs": ["Une petite faim ? Quelques messages suffisent.", "Burtos s'occupe du reste !"]},
-  "vo4": {"max": 4.5, "segs": ["Et le meilleur dans tout ça ? Nos clients en parlent mieux que nous !"]},
-  "vo5": {"max": 9.2, "segs": ["Orléans, Saran, Fleury-les-Aubrais,", "et jusqu'à trente kilomètres autour d'Orléans !", "La livraison est gratuite, avec un minimum de commande selon la distance."]},
-  "vo6": {"max": 4.8, "segs": ["Burtos, la gourmandise ne prend jamais de nuit !", "Alors, qu'est-ce qu'on vous prépare ce soir ?"]}
+  "vo1": {
+    "max": 4.4,
+    "segs": [
+      "La nuit tombe sur Orléans, mais chez Burtos, la gourmandise ne dort jamais !"
+    ]
+  },
+  "vo2": {
+    "max": 7.4,
+    "segs": [
+      "Tacos généreux, burgers gourmands !",
+      "Chez Burtos, il y a de quoi satisfaire toutes les envies, même au milieu de la nuit !"
+    ]
+  },
+  "vo3": {
+    "max": 5.9,
+    "segs": [
+      "Une petite faim ? Quelques messages suffisent.",
+      "Burtos s'occupe du reste !"
+    ]
+  },
+  "vo4": {
+    "max": 4.5,
+    "segs": [
+      "Et le meilleur dans tout ça ? Nos clients en parlent mieux que nous !"
+    ]
+  },
+  "vo5": {
+    "max": 9.2,
+    "segs": [
+      "Orléans, Saran, Fleury-les-Aubrais,",
+      "et jusqu'à trente kilomètres autour d'Orléans !",
+      "La livraison est gratuite, avec un minimum de commande selon la distance."
+    ]
+  },
+  "vo6": {
+    "max": 4.6,
+    "segs": [
+      "Burtos, la gourmandise ne prend jamais de nuit !"
+    ]
+  }
 }

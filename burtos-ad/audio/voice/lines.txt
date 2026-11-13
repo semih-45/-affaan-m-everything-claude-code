@@ -3,4 +3,4 @@ vo2|Tacos généreux, burgers gourmands… chez Burtoss, il y a de quoi satisfai
 vo3|Une petite faim ? Quelques messages suffisent. Burtoss s’occupe du reste !
 vo4|Et le meilleur dans tout ça ? Nos clients en parlent mieux que nous !
 vo5|Orléans, Saran, Fleury-les-Aubrais… et jusqu’à trente kilomètres autour d’Orléans ! La livraison est gratuite, avec un minimum de commande selon la distance.
-vo6|Burtoss… la gourmandise ne prend jamais de nuit ! Alors, qu’est-ce qu’on vous prépare ce soir ?
+vo6|Burtoss… la gourmandise ne prend jamais de nuit !
