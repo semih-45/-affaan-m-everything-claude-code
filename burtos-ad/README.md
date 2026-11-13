@@ -58,13 +58,19 @@ barre d'espace pour lire, clic sur la barre du bas pour naviguer.
 
 ## Voix off
 
-Générée localement avec Piper (voix masculine française libre `fr_FR-tom-medium`, rehaussée de 5 %) :
+Générée localement avec Parler-TTS (`parler-tts-mini-multilingual-v1.1`, licence Apache 2.0) :
+le ton est décrit dans `STYLE` (`audio/tts_parler.py`), le texte est dans `audio/voice/script.json`.
+Chaque segment est généré plusieurs fois et la prise la mieux prononcée (contrôle par transcription
+Whisper) est gardée.
 
 ```bash
-pip install piper-tts
-echo "Texte" | python3 -m piper -m fr_FR-tom-medium.onnx --length-scale 0.9 --noise-scale 0.8 --noise-w-scale 0.95 -f audio/voice/vo1.wav
+pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+pip install parler-tts faster-whisper
+python3 audio/tts_parler.py          # régénère vo1…vo6.wav (ou : tts_parler.py vo3)
+python3 tools/check_voice.py audio/voice/vo?.wav   # contrôle : transcription + hauteur
 ```
 
+`audio/voice/piper/` contient l'ancienne voix (Piper `fr_FR-tom-medium`), en secours.
 Pour une voix enregistrée : remplacer `audio/voice/vo1.wav` … `vo6.wav` (mêmes durées approximatives),
 puis `./build.sh`. Les instants de départ sont dans `vo` (`src/config.js`).
 
