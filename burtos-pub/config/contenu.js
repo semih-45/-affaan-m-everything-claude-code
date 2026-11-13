@@ -13,8 +13,8 @@ window.BURTOS_CONFIG = {
     intro:     [0, 5],
     selection: [5, 13],
     telephone: [13, 18.5],
-    avis:      [18.5, 23],
-    carte:     [23, 30],
+    carte:     [18.5, 26.5],
+    avis:      [26.5, 30],
     final:     [30, 35],
   },
 
@@ -59,7 +59,8 @@ window.BURTOS_CONFIG = {
     { de: 'burtos', texte: "Parfait ! On s'occupe de vous !" },
     { de: 'client', texte: 'Top, merci beaucoup !' },
   ],
-  conversationTitres: ['UNE PETITE FAIM ?', 'QUELQUES MESSAGES SUFFISENT,', "BURTOS S'OCCUPE DU RESTE !"],
+  conversationTitres: ['UNE PETITE FAIM ?', 'QUELQUES MESSAGES SUFFISENT,', "NOTRE ÉQUIPE S'OCCUPE DU RESTE !"],
+  conversationTitresTemps: [0.2, 1.3, 2.95],   // apparition de chaque ligne (s), calée sur la voix,
   mentionSituation: '',   // ex. 'MISE EN SITUATION' — vide = mention masquée
 
   // SCÈNE 4 — Avis (EXEMPLES : à remplacer par de vrais témoignages autorisés avant diffusion)

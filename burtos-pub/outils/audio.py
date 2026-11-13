@@ -12,7 +12,7 @@ MODE_VOIX = os.environ.get('BURTOS_VOIX', '')        # '' (selon config/voix-off
 SORTIE = os.environ.get('BURTOS_SORTIE', 'burtos-audio')
 
 # ---------------- MINUTAGE (doit rester cohérent avec config/contenu.js) ----------------
-S_INTRO, S_SEL, S_TEL, S_AVIS, S_CARTE, S_FINAL = 0, 5, 13, 18.5, 23, 30
+S_INTRO, S_SEL, S_TEL, S_CARTE, S_AVIS, S_FINAL = 0, 5, 13, 18.5, 26.5, 30
 VOIX = [  # (début dans le fichier source, fin, position dans la pub, fondu de sortie)
     (0.00, 2.17, 2.05, .03),     # « BUR-TOS, livraison de nuit »                       -> intro
     (11.66, 17.25, 5.70, .05),   # « Vous pouvez également commander des tacos… »        -> sélection
@@ -119,9 +119,9 @@ def musique():
     bars(5, 4, 'voix')                 # sélection (voix off présente : pas de mélodie)
     bars(13, 3, 'creux', 0)            # téléphone : groove allégé pour laisser entendre les notifications
     for i, t in enumerate(np.arange(18.0, 18.5, .125)): put(drums, t, Cl, .2 + .1 * i)
-    bars(19, 2, 'plein', 3)            # avis : groove complet + mélodie
+    bars(19, 4, 'carte', 3)            # carte : arpèges (voix off présente)
     put(drums, 18.5, K, .95); kicks.append(18.5); st = stab(CH[2][0], .5); mus[int(18.5 * SR):int(18.5 * SR) + len(st)] += st * .6
-    bars(23, 3, 'carte', 0)            # carte : arpèges
+    bars(27, 1, 'plein', 3)            # avis : groove complet + mélodie
     for i, t in enumerate(np.arange(29.0, 30.0, .125)): put(drums, t, Cl, .1 + .08 * i)
     bars(30, 2, 'plein', 0)            # final
     st = stab(CH[2][0] + [84], 1.0); mus[int(34 * SR):int(34 * SR) + len(st)] += st * .9
@@ -174,14 +174,13 @@ def sfx():
         put(s, S_TEL + e, pop(), .4, .4)
     for e in (1.7, 3.3): put(s, S_TEL + e, bell(1318.5, .16), .22, .4); put(s, S_TEL + e + .09, bell(1975.5, .22), .2, .4)
     for i, m in enumerate((84, 88, 91, 96)): put(s, S_TEL + 4.4 + i * .07, bell(mtof(m), .28), .2, .3)
-    put(s, S_TEL + 4.4, pop(200, 80, .15), .5); put(s, S_TEL + 5.05, whoosh(.5), .55); put(s, S_AVIS, impact(.6), .45)
+    put(s, S_TEL + 4.4, pop(200, 80, .15), .5); put(s, S_TEL + 5.1, whoosh(.5), .55); put(s, S_CARTE, impact(.7), .5); put(s, S_AVIS - .3, whoosh(.35), .4); put(s, S_AVIS, impact(.6), .45)
     # scène 4 : cartes + étoiles
     for i, ti in enumerate((.3, .7, 1.1)):
         put(s, S_AVIS + ti, whoosh(.4, False), .35, i - 1); put(s, S_AVIS + ti + .6, pop(150, 70, .1), .35, i - 1)
         for j in range(5): put(s, S_AVIS + ti + .57 + j * .075, bell(mtof(84 + [0, 2, 4, 7, 9][j] + i * 2), .14), .1, (i - 1) * .7)
-    put(s, 22.6, whoosh(.5), .55); put(s, 23.0, impact(.7), .5)
     # scène 5 : carte
-    put(s, 23.0, whoosh(1.2), .25); put(s, 23.9, bell(523.25, .5), .3); put(s, 23.9, pop(180, 70, .16), .5)
+    put(s, S_CARTE, whoosh(1.2), .25); put(s, S_CARTE + .9, bell(523.25, .5), .3); put(s, S_CARTE + .9, pop(180, 70, .16), .5)
     pent = [72, 74, 76, 79, 81, 84, 86, 88]
     tt = [1.15 + i * .17 for i in range(9)] + [2.9 + i * .2 for i in range(8)]
     for i, t in enumerate(tt):

@@ -79,7 +79,7 @@
       // notification discrète
       const tk = E.out5(p(t, 1.7, 2.0)) - E.in3(p(t, 2.7, 3.0)); toast.style.opacity = tk; toast.style.transform = `translateX(${(1 - tk) * 120}px)`;
       // titres
-      [.3, 1.5, 2.3].forEach((t0, i) => heads[i].spans.forEach((s, j) => B.pop(s, p(t, t0 + j * .09, t0 + .3 + j * .09), 50, 1.5)));
+      (C.conversationTitresTemps || [.3, 1.5, 2.3]).forEach((t0, i) => heads[i].spans.forEach((s, j) => B.pop(s, p(t, t0 + j * .09, t0 + .3 + j * .09), 50, 1.5)));
       heads.forEach(e => { e.style.opacity = 1 - out; });
       pills.items.forEach((e, i) => { const q = p(t, 3.1 + i * .18, 3.45 + i * .18); e.style.opacity = q * 3 * (1 - out); e.style.transform = `scale(${E.back(q)})`; });
       tagEl.style.opacity = C.mentionSituation ? p(t, .8, 1.1) * (1 - out) : 0;
