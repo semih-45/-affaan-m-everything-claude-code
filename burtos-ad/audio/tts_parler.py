@@ -13,7 +13,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 M = 'parler-tts/parler-tts-mini-multilingual-v1.1'
 STYLE = ("Daniel speaks in a very cheerful, lively and enthusiastic tone, like a fun radio advertisement, "
          "with a fast pace and very expressive, animated intonation. The recording is very clear, close-up, with no background noise.")
-TRIES = int(os.environ.get('TRIES', 4)); GOOD = 0.92
+TRIES = int(os.environ.get('TRIES', 8)); GOOD = 0.92
 torch.set_num_threads(4)
 model = ParlerTTSForConditionalGeneration.from_pretrained(M); tok = AutoTokenizer.from_pretrained(M)
 dtok = AutoTokenizer.from_pretrained(model.config.text_encoder._name_or_path); SR = model.config.sampling_rate
@@ -36,13 +36,20 @@ script = json.load(open(os.path.join(ROOT, 'audio/voice/script.json'), encoding=
 for vid, item in script.items():
     if sys.argv[1:] and vid not in sys.argv[1:]: continue
     parts = []
-    for si, txt in enumerate(item['segs']):
-        best = None
-        for k in range(TRIES):
-            x, r, heard = take(txt, 100 * (si + 1) + k + int(vid[2:]) * 1000)
+    for si, seg in enumerate(item['segs']):
+        says = seg['say'] if isinstance(seg, dict) else [seg]; target = seg['target'] if isinstance(seg, dict) else seg
+        cache = os.path.join(ROOT, 'audio/voice/segs', f'{vid}.{si}.npz'); best = None
+        if os.path.exists(cache):
+            c = np.load(cache, allow_pickle=True)
+            if str(c['target']) == target and float(c['r']) >= GOOD: best = (0, c['x'], float(c['r']), str(c['heard']) + ' (cache)')
+        for k in range(TRIES if best is None else 0):
+            x, _, heard = take(says[k % len(says)], 100 * (si + 1) + k + int(vid[2:]) * 1000)
+            r = difflib.SequenceMatcher(None, norm(target), norm(heard)).ratio()
+            if says[k % len(says)] != target and len(norm(heard)) != len(norm(target)): r -= 0.2   # variante : mots en plus = prise rejetée
             score = r - 0.01 * len(x) / SR
             if best is None or score > best[0]: best = (score, x, r, heard)
             if r >= GOOD: break
+        os.makedirs(os.path.dirname(cache), exist_ok=True); np.savez(cache, x=best[1], r=best[2], heard=best[3].replace(' (cache)', ''), target=target)
         print(f'  {vid}.{si} ratio={best[2]:.2f} {len(best[1]) / SR:.1f}s :: {best[3]}', flush=True)
         parts += [best[1] / np.abs(best[1]).max(), np.zeros(int(0.16 * SR))]
     x = np.concatenate(parts[:-1]) * 0.95; out = os.path.join(ROOT, 'audio/voice', vid + '.wav'); tmp = out + '.tmp.wav'

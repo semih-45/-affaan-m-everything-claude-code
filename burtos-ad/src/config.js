@@ -103,7 +103,7 @@
       mapZoom: [25.5, 26.15], points: [26.15, 26.6, 27.2], circle: 28.3, info: [30.0, 30.8, 31.4],
       outroLogo: 35.15, outroLines: [36.0, 36.5], outroSlogan: 37.2, outroContacts: 38.0,
     },
-    vo: [ ['vo1', 1.5], ['vo2', 6.4], ['vo3', 14.4], ['vo4', 20.8], ['vo5', 25.7], ['vo6', 35.1] ],
+    vo: [ ['vo1', 1.3], ['vo2', 6.4], ['vo3', 14.4], ['vo4', 20.8], ['vo5', 25.7], ['vo6', 35.1] ],
     scenes: [],
   };
   if (typeof module !== 'undefined') module.exports = root.BURTOS;
