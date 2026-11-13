@@ -7,6 +7,9 @@ from scipy import signal
 R = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
 SR = 48000; DUR = 35.0; N = int(SR * (DUR + 0.5))
 rng = np.random.default_rng(7)
+STYLE = os.environ.get('BURTOS_STYLE', 'funk')      # funk | disco
+MODE_VOIX = os.environ.get('BURTOS_VOIX', '')        # '' (selon config/voix-off.json) | fichier | synthese
+SORTIE = os.environ.get('BURTOS_SORTIE', 'burtos-audio')
 
 # ---------------- MINUTAGE (doit rester cohérent avec config/contenu.js) ----------------
 S_INTRO, S_SEL, S_TEL, S_AVIS, S_CARTE, S_FINAL = 0, 5, 13, 18.5, 23, 30
@@ -92,10 +95,16 @@ def musique():
                 if s % 4 == 0 and mode != 'fin': put(drums, t, K, .95); kicks.append(t)
                 if s in (4, 12) and mode != 'creux': put(drums, t, Cl, .55)
                 if s in (4, 12) and mode == 'creux': put(drums, t, Hc, .5)
-                if s % 4 == 2: put(drums, t, Ho, .26 if mode != 'creux' else .16, .2)
+                if s % 4 == 2: put(drums, t, Ho, (.4 if STYLE == 'disco' else .26) if mode != 'creux' else .16, .2)
                 elif s % 2 == 0: put(drums, t, Hc, .2, -.2)
                 else: put(drums, t, Hc, .09 if mode != 'creux' else .05, .3)
-            for s, iv in BASS:
+            if STYLE == 'disco':
+                pd = pad([m + 12 for m in ch[:4]], 2.0); pd = np.stack([filt(pd[:, 0], 'high', 500), filt(pd[:, 1], 'high', 500)], 1)
+                i = int(bt * SR); pd = pd[:max(0, N - i)]; mus[i:i + len(pd)] += pd * (.2 if mode != 'creux' else .1)
+                if mode != 'creux':
+                    for s, d in ((0, .12), (7, .1), (10, .28)):
+                        br = stab([m + 12 for m in ch[1:4]] + [ch[0] + 24], d + .1) * 1.3; i = int((bt + s * .125) * SR); br = br[:max(0, N - i)]; mus[i:i + len(br)] += br * .55
+            for s, iv in ([(k, 12 if k % 4 == 2 else 0) for k in range(0, 16, 2)] + [(15, 10)] if STYLE == 'disco' else BASS):
                 if mode == 'creux' and s in (7, 11, 15): continue
                 put(mus, bt + s * .125 + (.016 if s % 2 else 0), bass(root + iv), .5)
             if mode != 'creux':
@@ -218,7 +227,7 @@ def voix():
     cj = os.path.join(R, 'config/voix-off.json')
     if os.path.exists(cj):
         cfg = json.load(open(cj))
-        if cfg.get('mode') == 'synthese': return voix_synthese(cfg)
+        if (MODE_VOIX or cfg.get('mode')) == 'synthese': return voix_synthese(cfg)
     src = os.path.join(R, 'assets/voix-off/voix-off-originale.mp3')
     raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', src, '-f', 'f32le', '-ac', '1', '-ar', str(SR), '-'], capture_output=True).stdout
     a = np.frombuffer(raw, np.float32).astype(np.float64); a = filt(a, 'high', 85)
@@ -248,6 +257,6 @@ if __name__ == '__main__':
     mix = np.tanh(mix * 1.15); mix = mix / np.abs(mix).max() * .89
     n = int(DUR * SR)
     os.makedirs(os.path.join(R, 'rendus'), exist_ok=True)
-    ecrire(os.path.join(R, 'rendus/burtos-audio.wav'), mix[:n])
+    ecrire(os.path.join(R, f'rendus/{SORTIE}.wav'), mix[:n])
     ecrire(os.path.join(R, 'assets/musique/musique-originale.wav'), m[:n]); ecrire(os.path.join(R, 'assets/sons/sound-design.wav'), s[:n]); ecrire(os.path.join(R, 'assets/voix-off/voix-off-montee.wav'), np.stack([v, v], 1)[:n] * .9)
     print('audio ok', n / SR, 's')
