@@ -40,14 +40,16 @@ window.BURTOS_CONFIG = {
   // Pour remplacer un produit : changer photo / nom ; prix: '' = pas de prix affiché.
   // stats = jauges décoratives (0 à 1).
   produits: [
-    { nom: 'POULET MERGUEZ',             categorie: 'TACOS',  photo: '../assets/produits/poulet-merguez.jpg',             prix: '', stats: [0.92, 0.95, 0.85] },
-    { nom: 'LE MONTAGNARD',              categorie: 'BURGER', photo: '../assets/produits/le-montagnard.jpg',              prix: '', stats: [0.97, 0.90, 0.93] },
-    { nom: 'VIANDE TENDERS',             categorie: 'TACOS',  photo: '../assets/produits/viande-tenders.jpg',             prix: '', stats: [0.90, 0.98, 0.88] },
-    { nom: 'LE BIG STATES',              categorie: 'BURGER', photo: '../assets/produits/le-big-states.jpg',              prix: '', stats: [0.95, 0.99, 0.86] },
-    { nom: 'CORDON-BLEU TENDERS',        categorie: 'TACOS',  photo: '../assets/produits/cordon-bleu-tenders.jpg',        prix: '', stats: [0.96, 0.93, 0.97] },
-    { nom: 'LE SPICY',                   categorie: 'BURGER', photo: '../assets/produits/le-spicy.jpg',                   prix: '', stats: [0.91, 0.89, 0.99] },
-    { nom: 'VIANDE HACHÉE POULET CURRY', categorie: 'TACOS',  photo: '../assets/produits/viande-hachee-poulet-curry.jpg', prix: '', stats: [0.94, 0.97, 0.90] },
+    { nom: 'POULET MERGUEZ',             categorie: 'TACOS',  photo: '../assets/produits/poulet-merguez.jpg',             prix: '8 €', stats: [0.92, 0.95, 0.85] },
+    { nom: 'LE MONTAGNARD',              categorie: 'BURGER', photo: '../assets/produits/le-montagnard.jpg',              prix: '8 €', stats: [0.97, 0.90, 0.93] },
+    { nom: 'VIANDE TENDERS',             categorie: 'TACOS',  photo: '../assets/produits/viande-tenders.jpg',             prix: '8 €', stats: [0.90, 0.98, 0.88] },
+    { nom: 'LE BIG STATES',              categorie: 'BURGER', photo: '../assets/produits/le-big-states.jpg',              prix: '8 €', stats: [0.95, 0.99, 0.86] },
+    { nom: 'CORDON-BLEU TENDERS',        categorie: 'TACOS',  photo: '../assets/produits/cordon-bleu-tenders.jpg',        prix: '8 €', stats: [0.96, 0.93, 0.97] },
+    { nom: 'LE SPICY',                   categorie: 'BURGER', photo: '../assets/produits/le-spicy.jpg',                   prix: '8 €', stats: [0.91, 0.89, 0.99] },
+    { nom: 'VIANDE HACHÉE POULET CURRY', categorie: 'TACOS',  photo: '../assets/produits/viande-hachee-poulet-curry.jpg', prix: '8 €', stats: [0.94, 0.97, 0.90] },
   ],
+  // Flyer du menu affiché à la fin de la scène 2 (photo: '' = pas de flyer). duree = secondes d'affichage.
+  menu: { photo: '../assets/menu/menu.jpg', annexe: '../assets/menu/desserts-boissons.jpg', titre: 'LA CARTE', sousTitre: 'BURGERS · TACOS · DESSERTS · BOISSONS', duree: 2.5 },
   statsNoms: ['GOURMANDISE', 'GÉNÉROSITÉ', 'FONDANT'],
   selectionTitre: 'CHOISIS TON BURTOS',
 

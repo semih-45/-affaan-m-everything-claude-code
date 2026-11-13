@@ -165,8 +165,10 @@ def sfx():
     for i in range(10): put(s, 2.45 + i * .085 + .1, pop(500 + i * 40, 900 + i * 60, .04), .13, np.sin(i))
     put(s, 3.75, bell(1568, .2), .1); put(s, 4.4, riser(.6), .5); put(s, 5.0, impact(1.1), .8); put(s, 5.0, whoosh(.9, False), .5)
     # scène 2 : sons de sélection façon jeu vidéo
+    MENU_D = 2.5; STEP = (8 - 1 - MENU_D) / 7           # durée du flyer menu et pas entre produits (voir config : menu.duree)
+    put(s, S_SEL + 8 - MENU_D - .25, whoosh(.4, False), .5); put(s, S_SEL + 8 - MENU_D + .3, impact(.8), .55); put(s, S_SEL + 8 - MENU_D + .35, bell(1568, .3), .12)
     for k in range(7):
-        t = S_SEL + .5 + k * 1.0; put(s, t - .2, whoosh(.22), .22, (-1) ** k * .5); put(s, t, blip(880, 1320 if k % 2 == 0 else 1175), .3); put(s, t, pop(160, 60, .12), .5)
+        t = S_SEL + .5 + k * STEP; put(s, t - .2, whoosh(.22), .22, (-1) ** k * .5); put(s, t, blip(880, 1320 if k % 2 == 0 else 1175), .3); put(s, t, pop(160, 60, .12), .5)
     put(s, 12.62, whoosh(.5), .55); put(s, 13.0, impact(.7), .5)
     # scène 3 : frappe, envoi, réception, confirmation
     for a, e in ((.4, .95), (2.1, 2.6), (3.6, 4.0)):
