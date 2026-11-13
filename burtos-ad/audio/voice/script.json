@@ -1,0 +1,71 @@
+{
+  "vo1": {
+    "max": 4.6,
+    "segs": [
+      "La nuit tombe sur Orléans, mais chez Burtos, la gourmandise ne dort jamais !"
+    ]
+  },
+  "vo2": {
+    "max": 7.4,
+    "segs": [
+      {
+        "target": "Tacos généreux, burgers gourmands",
+        "say": [
+          "Tacos généreux, burgers gourmands !",
+          "Des tacos généreux, des burgers gourmands !",
+          "Tacos généreux, beurgueurs gourmands !"
+        ]
+      },
+      "Chez Burtos, il y a de quoi satisfaire toutes les envies, même au milieu de la nuit !"
+    ]
+  },
+  "vo3": {
+    "max": 5.9,
+    "segs": [
+      {
+        "target": "Une petite faim ? Quelques messages suffisent.",
+        "say": [
+          "Une petite faim ? Quelques messages suffisent.",
+          "Une petite faim ? Quelques messages suffisent !",
+          "Une petite fringale ? Quelques messages suffisent."
+        ]
+      },
+      {
+        "target": "Burtos s'occupe du reste",
+        "say": [
+          "Burtos s'occupe du reste !",
+          "Et Burtos s'occupe du reste !",
+          "Burtoss s'occupe du reste !"
+        ]
+      }
+    ]
+  },
+  "vo4": {
+    "max": 4.5,
+    "segs": [
+      "Et le meilleur dans tout ça ? Nos clients en parlent mieux que nous !"
+    ]
+  },
+  "vo5": {
+    "max": 9.2,
+    "segs": [
+      {
+        "target": "Orléans, Saran, Fleury-les-Aubrais",
+        "say": [
+          "Orléans, Saran, Fleury-les-Aubrais,",
+          "Orléans, Saran, Fleury-les-Aubrais !",
+          "Orléans, Saran, Fleuri les Aubrais,",
+          "Orléans, Saran, Fleury lèz Aubrais,"
+        ]
+      },
+      "et jusqu'à trente kilomètres autour d'Orléans !",
+      "La livraison est gratuite, avec un minimum de commande selon la distance."
+    ]
+  },
+  "vo6": {
+    "max": 4.6,
+    "segs": [
+      "Burtos, la gourmandise ne prend jamais de nuit !"
+    ]
+  }
+}
