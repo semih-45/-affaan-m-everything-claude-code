@@ -49,7 +49,7 @@ window.BURTOS_CONFIG = {
     { nom: 'VIANDE HACHÉE POULET CURRY', categorie: 'TACOS',  photo: '../assets/produits/viande-hachee-poulet-curry.jpg', prix: '8 €', stats: [0.94, 0.97, 0.90] },
   ],
   // Flyer du menu affiché à la fin de la scène 2 (photo: '' = pas de flyer). duree = secondes d'affichage.
-  menu: { photo: '../assets/menu/menu.jpg', annexe: '../assets/menu/desserts-boissons.jpg', titre: 'LA CARTE', sousTitre: 'BURGERS · TACOS · DESSERTS · BOISSONS', duree: 2.5 },
+  menu: { photo: '../assets/menu/menu.jpg', annexe: '../assets/menu/boissons.jpg', titre: 'LA CARTE', sousTitre: 'BURGERS · TACOS · BOISSONS', duree: 2.5 },
   statsNoms: ['GOURMANDISE', 'GÉNÉROSITÉ', 'FONDANT'],
   selectionTitre: 'CHOISIS TON BURTOS',
 

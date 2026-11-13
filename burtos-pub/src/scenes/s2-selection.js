@@ -56,7 +56,7 @@
         const tx = V ? cx : cx + 520;
         menuT = css(h('div', 'abs m9i', menuW, MENU.titre), { left: tx + 'px', top: (V ? 150 : 250) + 'px', fontSize: (V ? 150 : 130) + 'px', lineHeight: 1, whiteSpace: 'nowrap', color: 'var(--j)', textShadow: '7px 7px 0 var(--o),0 0 60px rgba(255,190,0,.6)' });
         menuS = css(h('div', 'abs raj', menuW, MENU.sousTitre), { left: tx + 'px', top: (V ? 320 : 400) + 'px', fontSize: (V ? 32 : 26) + 'px', whiteSpace: 'nowrap', color: '#fff' });
-        if (MENU.annexe) { const aw = V ? 760 : 600; menuAn = css(h('div', 'abs', menuW), { left: tx - aw / 2 + 'px', top: (V ? 1440 : 500) + 'px', width: aw + 'px', borderRadius: '20px', overflow: 'hidden', border: '5px solid #fff', boxShadow: '0 30px 60px rgba(0,0,0,.7)' }); css(h('img', '', menuAn), { display: 'block', width: '100%' }).src = MENU.annexe; }
+        if (MENU.annexe) { const aw = V ? 440 : 360; menuAn = css(h('div', 'abs', menuW), { left: tx - aw / 2 + 'px', top: (V ? 1440 : 500) + 'px', width: aw + 'px', borderRadius: '20px', overflow: 'hidden', border: '5px solid #fff', boxShadow: '0 30px 60px rgba(0,0,0,.7)' }); css(h('img', '', menuAn), { display: 'block', width: '100%' }).src = MENU.annexe; }
       }
       hint = css(h('div', 'abs raj', root, '◀ ▶ PARCOURIR &nbsp;&nbsp;·&nbsp;&nbsp; ● COMMANDER'), { left: 0, right: (V ? 0 : 90) + 'px', bottom: (V ? 110 : 44) + 'px', textAlign: V ? 'center' : 'right', fontSize: '22px', color: 'rgba(255,255,255,.55)' });
     },
