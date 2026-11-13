@@ -1,18 +1,103 @@
 {
-  "_aide": "mode = 'synthese' (voix générée à partir des phrases ci-dessous) ou 'fichier' (découpe de assets/voix-off/voix-off-originale.mp3). 'dit' = orthographe phonétique lue par la voix (n'affecte jamais l'écran). position = seconde de départ dans la pub.",
-  "mode": "synthese",
+  "_aide": "mode = 'fichier' (découpe d'un enregistrement : decoupes = [début dans le fichier, fin, position dans la pub, fondu de sortie]) ou 'synthese' (voix générée à partir de 'phrases' ; 'dit' = orthographe phonétique).",
+  "mode": "fichier",
+  "fichier": "assets/voix-off/voix-off-v3.mp3",
+  "decoupes": [
+    [
+      0.0,
+      4.9,
+      0.15,
+      0.05
+    ],
+    [
+      5.02,
+      12.4,
+      5.25,
+      0.05
+    ],
+    [
+      12.8,
+      17.55,
+      13.15,
+      0.05
+    ],
+    [
+      18.8,
+      22.62,
+      22.1,
+      0.04
+    ],
+    [
+      22.68,
+      24.1,
+      25.9,
+      0.04
+    ],
+    [
+      24.22,
+      26.7,
+      27.35,
+      0.04
+    ],
+    [
+      26.76,
+      31.7,
+      29.86,
+      0.05
+    ]
+  ],
   "vitesse": 0.9,
   "phrases": [
-    { "position": 0.25, "texte": "La nuit tombe sur Orléans…" },
-    { "position": 2.05, "texte": "Mais chez BURTOS, la gourmandise ne dort jamais !", "dit": "Mais chez Burtoss, la gourmandise ne dort jamais !" },
-    { "position": 5.25, "texte": "Des tacos généreux, des burgers gourmands… chez BURTOS, il y en a pour toutes les envies !", "dit": "Des tacos généreux, des burgers gourmands… chez Burtoss, il y en a pour toutes les envies !" },
-    { "position": 10.05, "texte": "Le Montagnard, le Poulet Merguez… faites votre choix !" },
-    { "position": 13.30, "texte": "Une petite faim ? Quelques messages suffisent, et BURTOS s'occupe du reste !", "dit": "Une petite faim ? Quelques messages suffisent, et Burtoss s'occupe du reste !" },
-    { "position": 18.55, "texte": "Et nos clients en parlent mieux que nous !" },
-    { "position": 20.55, "texte": "C'est chaud, c'est rapide, et avec le sourire !" },
-    { "position": 23.40, "texte": "D'Orléans jusqu'aux alentours, BURTOS vient à vous !", "dit": "D'Orléans jusqu'aux alentours, Burtoss vient à vous !" },
-    { "position": 26.40, "texte": "Jusqu'à 30 kilomètres autour d'Orléans, avec la livraison gratuite !", "dit": "Jusqu'à trente kilomètres autour d'Orléans, avec la livraison gratuite !", "vitesse": 0.86 },
-    { "position": 30.40, "texte": "BURTOS ! La gourmandise ne prend jamais de nuit !", "dit": "Burtoss ! La gourmandise ne prend jamais de nuit !" },
-    { "position": 33.45, "texte": "Commandez maintenant !" }
+    {
+      "position": 0.25,
+      "texte": "La nuit tombe sur Orléans…"
+    },
+    {
+      "position": 2.05,
+      "texte": "Mais chez BURTOS, la gourmandise ne dort jamais !",
+      "dit": "Mais chez Burtoss, la gourmandise ne dort jamais !"
+    },
+    {
+      "position": 5.25,
+      "texte": "Des tacos généreux, des burgers gourmands… chez BURTOS, il y en a pour toutes les envies !",
+      "dit": "Des tacos généreux, des burgers gourmands… chez Burtoss, il y en a pour toutes les envies !"
+    },
+    {
+      "position": 10.05,
+      "texte": "Le Montagnard, le Poulet Merguez… faites votre choix !"
+    },
+    {
+      "position": 13.3,
+      "texte": "Une petite faim ? Quelques messages suffisent, et BURTOS s'occupe du reste !",
+      "dit": "Une petite faim ? Quelques messages suffisent, et Burtoss s'occupe du reste !"
+    },
+    {
+      "position": 18.55,
+      "texte": "Et nos clients en parlent mieux que nous !"
+    },
+    {
+      "position": 20.55,
+      "texte": "C'est chaud, c'est rapide, et avec le sourire !"
+    },
+    {
+      "position": 23.4,
+      "texte": "D'Orléans jusqu'aux alentours, BURTOS vient à vous !",
+      "dit": "D'Orléans jusqu'aux alentours, Burtoss vient à vous !"
+    },
+    {
+      "position": 26.4,
+      "texte": "Jusqu'à 30 kilomètres autour d'Orléans, avec la livraison gratuite !",
+      "dit": "Jusqu'à trente kilomètres autour d'Orléans, avec la livraison gratuite !",
+      "vitesse": 0.86
+    },
+    {
+      "position": 30.4,
+      "texte": "BURTOS ! La gourmandise ne prend jamais de nuit !",
+      "dit": "Burtoss ! La gourmandise ne prend jamais de nuit !"
+    },
+    {
+      "position": 33.45,
+      "texte": "Commandez maintenant !"
+    }
   ]
 }

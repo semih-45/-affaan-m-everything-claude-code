@@ -42,7 +42,8 @@ même façon dans `config/contenu.js` (`instagram: '@…'` fait apparaître la p
 
 ## Voix off
 
-La voix actuelle est une voix de synthèse générée localement (Piper, voix française « tom ») à partir
+La voix actuelle est l'enregistrement `assets/voix-off/voix-off-v3.mp3`, découpé selon `decoupes` dans `config/voix-off.json` (`"mode": "fichier"`).
+En `"mode": "synthese"`, la voix est une voix de synthèse générée localement (Piper, voix française « tom ») à partir
 des phrases de `config/voix-off.json` : `texte` = phrase, `dit` = orthographe phonétique lue par la voix
 (n'affecte jamais l'écran), `position` = seconde de départ. Modifier puis relancer `python3 outils/audio.py`.
 Le modèle (`assets/voix-off/modele/fr_FR-tom-medium.onnx`, non versionné) se télécharge depuis

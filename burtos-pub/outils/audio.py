@@ -228,7 +228,10 @@ def voix():
     if os.path.exists(cj):
         cfg = json.load(open(cj))
         if (MODE_VOIX or cfg.get('mode')) == 'synthese': return voix_synthese(cfg)
-    src = os.path.join(R, 'assets/voix-off/voix-off-originale.mp3')
+        if MODE_VOIX != 'v1' and cfg.get('decoupes'): return voix_fichier(os.path.join(R, cfg['fichier']), cfg['decoupes'])
+    return voix_fichier(os.path.join(R, 'assets/voix-off/voix-off-originale.mp3'), VOIX)
+
+def voix_fichier(src, VOIX):
     raw = subprocess.run(['ffmpeg', '-v', 'error', '-i', src, '-f', 'f32le', '-ac', '1', '-ar', str(SR), '-'], capture_output=True).stdout
     a = np.frombuffer(raw, np.float32).astype(np.float64); a = filt(a, 'high', 85)
     v = np.zeros(N); os.makedirs(os.path.join(R, 'assets/voix-off/segments'), exist_ok=True)
